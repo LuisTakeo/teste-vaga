@@ -24,15 +24,22 @@ const estado3 = new Estado("MG", 29229.88);
 const estado4 = new Estado("ES", 27165.48);
 const estado5 = new Estado("Outros", 19849.53);
 
+const textoFaturas = document.querySelector("#fatura");
+const textoFaturaTotal = document.querySelector("#faturaTotal");
+const textoParticipacao = document.querySelector("#partipacao");
+
+const mostraFaturas = (...estados) => {
+    estados.forEach(estado => textoFaturas.innerHTML += `<li>${estado.nomeEstado} - R$ ${estado.fatura}.</li>`);
+}
 const calculaValorTotal = (...estados) => {
     let total = estados.reduce((acc, estado) => acc + estado.fatura, 0);
     return total;    
 }
 const mostraPercento = (total, ...estados) => {
-    estados.forEach(estado => console.log(estado.calculaPercento(total)))
+    estados.forEach(estado => textoParticipacao.innerHTML += `<li>${estado.calculaPercento(total)}</li>`);
 }
-const valorTotal = calculaValorTotal(estado1, estado2, estado3, estado4, estado5);
-console.log(`Valor total arrecadado: R$${valorTotal}`)
-mostraPercento(valorTotal, estado1, estado2, estado3, estado4, estado5)
 
-// (estado1.fatura / valorTotal * 100).toFixed(2)
+const valorTotal = calculaValorTotal(estado1, estado2, estado3, estado4, estado5);
+mostraFaturas(estado1, estado2, estado3, estado4, estado5);
+textoFaturaTotal.innerHTML = `<li>R$ ${valorTotal}.</li>`
+mostraPercento(valorTotal, estado1, estado2, estado3, estado4, estado5);
